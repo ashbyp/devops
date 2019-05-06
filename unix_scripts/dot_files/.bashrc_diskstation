@@ -1,0 +1,8 @@
+#!/bin/bash
+alias .=pwd
+alias c=clear
+alias ls='ls -F'
+alias ll='ls -al'
+alias ..='cd ..'
+alias login_root='sudo -i'
+
