@@ -18,7 +18,7 @@ fi
 while true; do
    read -p "Restart daemon? " yn
    case $yn in
-      [Yy]* ) echo "synoservicecfg --restart synomkthumbd"; break;;
+      [Yy]* ) synoservicecfg --restart synomkthumbd; break;;
       [Nn]* ) exit;;
       * ) echo "Please answer yes or no.";;
    esac
