@@ -8,6 +8,7 @@ alias rc='source ~/.bashrc'
 alias ls='ls -F'
 alias h=history
 alias mg='cd ~/gowork/src/github.com/ashbyp/goutil'
+alias md='sudo mount -t drvfs S: /mnt/s'
 
 create_mvn_simple() {
    if [ $# -ne 1 ]; then
