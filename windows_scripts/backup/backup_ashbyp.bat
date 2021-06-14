@@ -18,4 +18,6 @@ CALL backup_ashbyp_scripts
 echo %date% - %time%
 REM CALL backup_ashbyp_dropbox
 REM echo %date% - %time%
+echo %date% - %time%
+CALL backup_ashbyp_wsl
 :END
