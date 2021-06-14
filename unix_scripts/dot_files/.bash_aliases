@@ -10,6 +10,11 @@ alias h=history
 alias mg='cd ~/gowork/src/github.com/ashbyp/goutil'
 alias md='sudo mount -t drvfs S: /mnt/s'
 
+security_updates() {
+    sudo apt-get update
+    sudo apt-get -y upgrade
+}
+
 create_mvn_simple() {
    if [ $# -ne 1 ]; then
       echo "Usage: create_mvn_simple <project name>"
