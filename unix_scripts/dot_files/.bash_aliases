@@ -41,3 +41,22 @@ init_github_proj() {
    git push -u origin master
 
 }
+
+prettyjson_s() {
+    echo "$1" | python3 -m json.tool
+}
+
+prettyjson_f() {
+    python -m json.tool3 "$1"
+}
+
+prettyjson_w() {
+    curl "$1" | python3 -m json.tool
+}
+
+
+
+
+
+
+
