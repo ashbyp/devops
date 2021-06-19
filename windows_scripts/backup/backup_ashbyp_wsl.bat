@@ -1,5 +1,5 @@
 @ECHO OFF
-SET description=ashbyp_cygwin
+SET description=ashbyp_wsl
 CALL config.bat
 SET source_dir="C:\Users\ashbyp\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\home\ashbyp"
 SET dest_dir="%destination%\ashbyp\wsl_home"
