@@ -1,7 +1,7 @@
 @ECHO OFF
 REM Required Variables
 REM "description" description of what's being backed up eg: ashbyp_videos
-SET destination=\\diskstation\shared\robobackup-ashby-pc2
+SET destination=\\diskstation\shared\robobackup-ashby-pc6
 SET log_fname=logs\%description%_%date:~-4,4%%date:~-7,2%%date:~-10,2%.log
 SET what_to_copy=/COPY:DAT /MIR
 SET exclude_dirs=/XD junk .git venv .idea

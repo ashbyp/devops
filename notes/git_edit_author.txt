@@ -1,0 +1,1 @@
+git rebase -r 680989a60c89e9d64da9b8a38f0296c5ffc9e91e --exec 'git commit --amend --no-edit --reset-author'
