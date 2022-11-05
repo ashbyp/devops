@@ -4,20 +4,39 @@ usage() {
     echo "Usage: $0 <options> \"description of image for dall-e to consume\""
     echo
     echo "Options:"
+    echo "   -v|--verbose"
     echo "   -k|--keep-image"
     echo "   -a|--api-key openai_api_key"
     echo "   -s|--size (s)mall|(m)edium|(l)arge"
     exit -1
 }
 
-keep_image=0
+keep_image=
+verbose=
 api_key=""
 image_description=""
 size="1024x1024"
 images_to_keep=10
 
+info() {
+    if [ $verbose ]; then
+        echo $*
+    fi
+}
+
+error() {
+    echo " *** $*"
+}
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -v|--verbose)
+            if [ "$image_description" ]; then
+                usage
+            fi
+            verbose=1
+            shift
+        ;;
         -k|--keep-image)
             if [ "$image_description" ]; then
                 usage
@@ -67,14 +86,16 @@ if [ "$image_description" == "" ]; then
     usage
 fi
 
-echo "Generating image: \"$image_description\""
 
 loc=$(dirname "$(readlink -f "$0")")""
 
 if [ "$api_key" == "" ]; then
-    echo "Loading api key from $loc/openai_key.txt"
+    info "Loading api key from $loc/openai_key.txt"
     api_key=`cat $loc/openai_key.txt`
 fi
+
+info "Prompt: $image_description"
+info "Size:   $size"
 
 output=`curl https://api.openai.com/v1/images/generations \
 -H "Content-Type: application/json" \
@@ -85,28 +106,32 @@ output=`curl https://api.openai.com/v1/images/generations \
      \"size\": \"$size\"
 }"`
 
+info "Response: $output"
+
 url=`echo $output | sed  -n 's/.*\(https.*\)" } ] }/\1/p'`
 if [ "$url" == "" ]; then
-    echo "URL for image not found in output:"
-    echo $output
+    error "URL for image not found in output:"
+    error $output
     exit -1
 fi
 
-if [ $keep_image -eq 1 ]; then
+if [ $keep_image ]; then
     seq_to=$((images_to_keep-1))   
-    for i in `seq $seq_to -1 1`
-    do
+    for i in `seq $seq_to -1 1`; do
         j=$((i+1))
         if [ -f "image$i.png" ]; then
+            info "Copying image$i.png to image$j.png"
             mv "image$i.png" "image$j.png"
         fi
     done
     if [ -f image.png ]; then
+        info "Copying image.png to image1.png"
         mv image.png image1.png
     fi
     curl $url -o image.png
     url=$loc/image.png
-    echo "Image saved to $loc/image.png"
+    info "Image saved to $loc/image.png"
 fi
 
+info "Running: \"start chrome $url\""
 start chrome $url
