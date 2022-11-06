@@ -17,6 +17,7 @@ api_key=""
 image_description=""
 size="1024x1024"
 images_to_keep=10
+curl_opts="-s"
 
 info() {
     if [ $verbose ]; then
@@ -86,6 +87,10 @@ if [ "$image_description" == "" ]; then
     usage
 fi
 
+if [ $verbose ]; then
+    curl_opts=
+fi
+
 
 loc=$(dirname "$(readlink -f "$0")")""
 
@@ -97,7 +102,7 @@ fi
 info "Prompt: $image_description"
 info "Size:   $size"
 
-output=`curl https://api.openai.com/v1/images/generations \
+output=`curl $curl_opts https://api.openai.com/v1/images/generations \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer $api_key" \
 -d "{
@@ -128,7 +133,7 @@ if [ $keep_image ]; then
         info "Copying image.png to image1.png"
         mv image.png image1.png
     fi
-    curl $url -o image.png
+    curl $curl_opts $url -o image.png
     url=$loc/image.png
     info "Image saved to $loc/image.png"
 fi
