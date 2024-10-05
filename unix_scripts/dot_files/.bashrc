@@ -10,9 +10,9 @@ alias h=history
 alias md='sudo mount -t drvfs S: /mnt/s'
 alias ds='ssh admin@diskstation'
 alias dev='cd ~/dev'
-alias jdev='cd ~/dev'
-alias pdev='cd ~/dev'
-alias rdev='cd ~/dev'
+alias jdev='cd ~/dev/java'
+alias pdev='cd ~/dev/python'
+alias rdev='cd ~/dev/R'
 alias bb='docker run -it --rm busybox'
 alias more=less
 
