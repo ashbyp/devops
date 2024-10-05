@@ -1,6 +1,3 @@
-# If not running interactively, don't do anything
-[[ "$-" != *i* ]] && return
-
 alias df='df -h'
 alias du='du -h'
 alias ll='ls -al'
@@ -10,7 +7,19 @@ alias c=clear
 alias rc='source ~/.bashrc'
 alias ls='ls -F'
 alias h=history
-alias mg='cd ~/gowork/src/github.com/ashbyp/goutil'
+alias md='sudo mount -t drvfs S: /mnt/s'
+alias ds='ssh admin@diskstation'
+alias dev='cd ~/dev'
+alias jdev='cd ~/dev'
+alias pdev='cd ~/dev'
+alias rdev='cd ~/dev'
+alias bb='docker run -it --rm busybox'
+alias more=less
+
+security_updates() {
+    sudo apt-get update
+    sudo apt-get -y upgrade
+}
 
 create_mvn_simple() {
    if [ $# -ne 1 ]; then
@@ -39,10 +48,21 @@ init_github_proj() {
 
 }
 
-export PATH=$PATH:$HOME/bin:$HOME/bin/protoc-3.0.0/bin:$GOPATH/bin
-export GODATA=$GOPATH/dat
+prettyjson_s() {
+    echo "$1" | python3 -m json.tool
+}
 
-# app enginme
-export GAE_SDK_ROOT="C:\Users\ashbyp\dev\go_appengine"
-export GAE_SDK_ROOT=/cygdrive/c/Users/ashbyp/dev/go_appengine
-export PATH=$PATH:$GAE_SDK_ROOT
+prettyjson_f() {
+    python -m json.tool3 "$1"
+}
+
+prettyjson_w() {
+    curl "$1" | python3 -m json.tool
+}
+
+
+
+
+
+
+
