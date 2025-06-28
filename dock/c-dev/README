@@ -1,0 +1,2 @@
+docker build -t c-dev .
+docker run -it -v dock-data:/home/ashbyp c-dev
