@@ -63,7 +63,7 @@ prettyjson_w() {
 runl() {
 
   if [[ -z "$1" ]]; then
-    echo "Usage: run_last_command <file>"
+    echo "Usage: runl <file>"
     return 1
   fi
 
@@ -81,4 +81,27 @@ runl() {
   echo "Running: $last_line"
   eval "$last_line"
 }
+
+runf() {
+
+  if [[ -z "$1" ]]; then
+    echo "Usage: runf <file>"
+    return 1
+  fi
+
+  if [[ ! -f "$1" ]]; then
+    echo "File not found: $1"
+    return 1
+  fi
+
+  last_line=$(head -n 1 "$1")
+  if [[ -z "$last_line" ]]; then
+    echo "File is empty or last line is blank."
+    return 1
+  fi
+
+  echo "Running: $last_line"
+  eval "$last_line"
+}
+
 
