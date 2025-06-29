@@ -60,9 +60,25 @@ prettyjson_w() {
     curl "$1" | python3 -m json.tool
 }
 
+runl() {
 
+  if [[ -z "$1" ]]; then
+    echo "Usage: run_last_command <file>"
+    return 1
+  fi
 
+  if [[ ! -f "$1" ]]; then
+    echo "File not found: $1"
+    return 1
+  fi
 
+  last_line=$(tail -n 1 "$1")
+  if [[ -z "$last_line" ]]; then
+    echo "File is empty or last line is blank."
+    return 1
+  fi
 
-
+  echo "Running: $last_line"
+  eval "$last_line"
+}
 

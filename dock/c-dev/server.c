@@ -6,8 +6,18 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#define PORT 9080
+#define PORT 8080
 #define BUFFER_SIZE 4096
+
+const char *get_mime_type(const char *filename) {
+    const char *ext = strrchr(filename, '.');
+    if (!ext) return "application/octet-stream";
+    if (strcmp(ext, ".html") == 0) return "text/html";
+    if (strcmp(ext, ".htm") == 0)  return "text/html";
+    if (strcmp(ext, ".c") == 0)    return "text/plain";
+    if (strcmp(ext, ".txt") == 0)  return "text/plain";
+    return "application/octet-stream";
+}
 
 void serve_file(int client_socket, const char *filepath) {
     char buffer[BUFFER_SIZE];
@@ -19,7 +29,7 @@ void serve_file(int client_socket, const char *filepath) {
         return;
     }
 
-    // Default to index.html if path is "/"
+    // Default to index.html if "/"
     const char *filename = strcmp(filepath, "/") == 0 ? "index.html" : filepath + 1;
 
     int file = open(filename, O_RDONLY);
@@ -29,9 +39,15 @@ void serve_file(int client_socket, const char *filepath) {
         return;
     }
 
-    const char *header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
+    const char *mime_type = get_mime_type(filename);
+
+    // Prepare and send HTTP header
+    char header[BUFFER_SIZE];
+    snprintf(header, sizeof(header),
+             "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", mime_type);
     write(client_socket, header, strlen(header));
 
+    // Send file contents
     ssize_t bytes;
     while ((bytes = read(file, buffer, BUFFER_SIZE)) > 0) {
         write(client_socket, buffer, bytes);
@@ -44,7 +60,6 @@ void handle_connection(int client_socket) {
     char request[BUFFER_SIZE] = {0};
     read(client_socket, request, BUFFER_SIZE - 1);
 
-    // Parse GET line: e.g., "GET /file.html HTTP/1.1"
     char method[8], path[1024];
     sscanf(request, "%7s %1023s", method, path);
 

@@ -1,3 +1,2 @@
 docker build -t c-dev .
-docker run -it -p 9080:9080 -v dock-data:/home/ashbyp c-dev
-
+docker run -it -p 9081:9080 -v dock-data:/home/ashbyp c-dev
