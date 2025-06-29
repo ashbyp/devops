@@ -8,6 +8,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+COPY server.py /tmp/
+
+
 # Create user 'ashbyp' and change ownership of home directory
 RUN useradd -m -s /bin/bash ashbyp && \
     echo 'ashbyp ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
